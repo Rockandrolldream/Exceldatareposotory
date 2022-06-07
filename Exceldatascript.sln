@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32516.85
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exceldatascript", "Exceldatascript\Exceldatascript.csproj", "{D846ADA5-2738-4E2B-A777-9528D2F500F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mstestdatascipt", "Mstestdatascipt\Mstestdatascipt.csproj", "{AB98ADB1-56C2-45E5-86F6-AC8FA293873C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D846ADA5-2738-4E2B-A777-9528D2F500F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D846ADA5-2738-4E2B-A777-9528D2F500F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D846ADA5-2738-4E2B-A777-9528D2F500F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D846ADA5-2738-4E2B-A777-9528D2F500F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB98ADB1-56C2-45E5-86F6-AC8FA293873C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB98ADB1-56C2-45E5-86F6-AC8FA293873C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB98ADB1-56C2-45E5-86F6-AC8FA293873C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB98ADB1-56C2-45E5-86F6-AC8FA293873C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0F06F695-26A6-4D5D-8BA7-73CF2E941560}
+	EndGlobalSection
+EndGlobal
