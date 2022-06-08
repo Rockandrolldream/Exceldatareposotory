@@ -1,3 +1,5 @@
+using Exceldatascript;
+
 namespace Mstestdatascipt
 {
     [TestClass]
@@ -7,6 +9,16 @@ namespace Mstestdatascipt
         public void TestMethodPoc()
         {
             Assert.AreEqual(2 ,2 );
+        }
+
+        [TestMethod]
+        public void TestLenghtOfPdfDokuments()
+        {
+            ExcelDataScriptExecute excelDataScriptExecute = new ExcelDataScriptExecute(); 
+
+            var listoutput = excelDataScriptExecute.GetDataTableFromExcel(38);
+
+            Assert.AreEqual(listoutput.Count, 21058);
         }
     }
 }

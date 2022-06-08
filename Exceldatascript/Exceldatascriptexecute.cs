@@ -14,16 +14,14 @@ using Newtonsoft.Json;
 
 namespace Exceldatascript
 {
-    public class Exceldatascriptexecute
+    public class ExcelDataScriptExecute
     {
 
-        public  void GetDataTableFromExcel()
+        public List<String> GetDataTableFromExcel(int coloumnumber)
         {
             string content = "";
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            //FileInfo fileInfo = new FileInfo(path);
-            //ExcelPackage package = new ExcelPackage(fileInfo);
-            // ExcelWorksheet worksheet = package.Workbook.Worksheets.FirstOrDefault(); 
+             
 
             List<String> exceldata = new List<String>();
 
@@ -34,26 +32,21 @@ namespace Exceldatascript
                 {
                     foreach (ExcelWorksheet worksheet in excelPackage.Workbook.Worksheets)
                     {
-                        for (int i = worksheet.Dimension.Start.Row; i < worksheet.Dimension.End.Row; i++)
+                        for (int i = worksheet.Dimension.Start.Row; i <= worksheet.Dimension.End.Row; i++)
                         {
-                            for (int j = worksheet.Dimension.Start.Column; j < worksheet.Dimension.End.Column; j++)
-                            {
-                                if (worksheet.Cells[i, j].Value != null)
+                                if (worksheet.Cells[i, coloumnumber].Value != null)
                                 {
-                                    exceldata.Add(worksheet.Cells[i,j].Value.ToString());
+                                    Console.WriteLine(worksheet.Cells[i, coloumnumber].Value.ToString());
+                                    
+                                    exceldata.Add(worksheet.Cells[i, coloumnumber].Value.ToString());
                                 }
-                            }
                         }
                     }
                 }
             
             }
-
-            foreach (var item in exceldata)
-            {
-                Console.WriteLine(item);
-            }
-
+            Console.WriteLine(exceldata.Count);
+            return exceldata;
         }
     }
 }
