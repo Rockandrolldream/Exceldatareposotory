@@ -18,7 +18,7 @@ namespace Mstestdatascipt
 
             var listoutput = excelDataScriptExecute.GetDataTableFromExcel(38);
 
-            Assert.AreEqual(listoutput.Count, 7689);
+            Assert.AreEqual(listoutput.Count, 46);
         }
     }
 }

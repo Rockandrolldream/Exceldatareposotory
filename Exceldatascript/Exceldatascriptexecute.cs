@@ -12,6 +12,8 @@ using OfficeOpenXml;
 using System.Data;
 using Newtonsoft.Json;
 using RestSharp;
+using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace Exceldatascript
 {
@@ -31,7 +33,7 @@ namespace Exceldatascript
                         for (int i = 2; i <= worksheet.Dimension.End.Row; i++)
                         {
                                 var outputexcel = worksheet.Cells[i, coloumnumber].Value.ToString();
-                                ValidateThatLinkWorks(outputexcel);
+                            Validatedata(outputexcel);
                         }
                     }
                 }      
@@ -39,58 +41,42 @@ namespace Exceldatascript
             return exceldata;
         }
 
-        public void ValidateThatLinkWorks(string outputexcel)
+        public async void Validatedata( string outputexcel)
         {
-            if (outputexcel.Contains("http"))
+            switch (outputexcel)
             {
-                switch (outputexcel)
-                {
-                    case null:
-                        Console.WriteLine("string may not be null");
-                        break;
-                    case "":
-                        Console.WriteLine("string is empthy");
-                        break;
-                    default:
-                        exceldata.Add(outputexcel);
-                        Console.WriteLine(outputexcel);
-                        break;
-                }
-            }
-            else {
-                Console.WriteLine("request doesnt contains https");
+                case null:
+                  //  Console.WriteLine("string may not be null");
+                    break;
+                case "":
+                 //   Console.WriteLine("string is empthy");
+                    break;
+                default: 
+
+                    if (outputexcel.Contains("http"))
+                    {
+                        var sw = new Stopwatch();
+                        sw.Start();
+                        Task delay = Task.Delay(30000);
+                        SendRequestvalidate(outputexcel);
+                        await delay;
+                    }
+                    break;
             }
         }
 
-        //public void HelpereMethode(int row)
-        //{
-        //    ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-        //    byte[] bin = File.ReadAllBytes("C:\\Users\\KOM\\Desktop\\Exceldatascriptopgave\\GRI_2017_2020.xlsx");
-
-        //    using (MemoryStream stream = new MemoryStream(bin))
-        //    {
-        //        using (ExcelPackage excelPackage = new ExcelPackage(stream))
-        //        {
-        //            foreach (ExcelWorksheet worksheet in excelPackage.Workbook.Worksheets)
-        //            {
-        //                    var outputexcel = worksheet.Cells[row, 39].Value.ToString();
-
-        //                    switch (outputexcel)
-        //                    {
-        //                        case null:
-        //                            Console.WriteLine("string may not be null");
-        //                            break;
-        //                        case "":
-        //                            Console.WriteLine("string is empthy");
-        //                            break;
-        //                        default:
-        //                            exceldata.Add(outputexcel);
-        //                            Console.WriteLine(outputexcel);
-        //                            break;
-        //                    }
-        //            }
-        //        }
-        //    }
-        //}
+        public async Task SendRequestvalidate(string outputexcel)
+        {
+                var url = outputexcel;
+                RestClient client = new RestClient(url);
+                var request = new RestRequest(url, Method.Get);
+                RestResponse response = await client.ExecuteAsync(request);
+                var Output = response.StatusCode.ToString();
+                Console.WriteLine(Output);
+            if (Output == "OK")
+            {
+                exceldata.Add(outputexcel);
+            }
+        }
     }
 }
