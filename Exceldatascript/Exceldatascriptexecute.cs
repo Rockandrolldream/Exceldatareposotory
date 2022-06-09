@@ -31,7 +31,7 @@ namespace Exceldatascript
                         for (int i = 2; i <= worksheet.Dimension.End.Row; i++)
                         {
                                 var outputexcel = worksheet.Cells[i, coloumnumber].Value.ToString();
-                                ValidateThatLinkWorks(outputexcel , i);
+                                ValidateThatLinkWorks(outputexcel);
                         }
                     }
                 }      
@@ -39,56 +39,58 @@ namespace Exceldatascript
             return exceldata;
         }
 
-        public void ValidateThatLinkWorks(string outputexcel, int row)
+        public void ValidateThatLinkWorks(string outputexcel)
         {
-
+            if (outputexcel.Contains("http"))
+            {
                 switch (outputexcel)
                 {
                     case null:
                         Console.WriteLine("string may not be null");
-                        HelpereMethode(row);                       
                         break;
                     case "":
                         Console.WriteLine("string is empthy");
-                        HelpereMethode(row);
-                    break;
+                        break;
                     default:
                         exceldata.Add(outputexcel);
                         Console.WriteLine(outputexcel);
                         break;
-                }    
-        }
-
-        public void HelpereMethode(int row)
-        {
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            byte[] bin = File.ReadAllBytes("C:\\Users\\KOM\\Desktop\\Exceldatascriptopgave\\GRI_2017_2020.xlsx");
-
-            using (MemoryStream stream = new MemoryStream(bin))
-            {
-                using (ExcelPackage excelPackage = new ExcelPackage(stream))
-                {
-                    foreach (ExcelWorksheet worksheet in excelPackage.Workbook.Worksheets)
-                    {
-                            var outputexcel = worksheet.Cells[row, 39].Value.ToString();
-                            switch (outputexcel)
-                            {
-                                case null:
-                                    Console.WriteLine("string may not be null");
-
-                                    break;
-                                case "":
-                                    Console.WriteLine("string is empthy");
-                                    break;
-                                default:
-                                    exceldata.Add(outputexcel);
-                                    Console.WriteLine(outputexcel);
-                                    break;
-                            }
-
-                    }
                 }
             }
+            else {
+                Console.WriteLine("request doesnt contains https");
+            }
         }
+
+        //public void HelpereMethode(int row)
+        //{
+        //    ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+        //    byte[] bin = File.ReadAllBytes("C:\\Users\\KOM\\Desktop\\Exceldatascriptopgave\\GRI_2017_2020.xlsx");
+
+        //    using (MemoryStream stream = new MemoryStream(bin))
+        //    {
+        //        using (ExcelPackage excelPackage = new ExcelPackage(stream))
+        //        {
+        //            foreach (ExcelWorksheet worksheet in excelPackage.Workbook.Worksheets)
+        //            {
+        //                    var outputexcel = worksheet.Cells[row, 39].Value.ToString();
+
+        //                    switch (outputexcel)
+        //                    {
+        //                        case null:
+        //                            Console.WriteLine("string may not be null");
+        //                            break;
+        //                        case "":
+        //                            Console.WriteLine("string is empthy");
+        //                            break;
+        //                        default:
+        //                            exceldata.Add(outputexcel);
+        //                            Console.WriteLine(outputexcel);
+        //                            break;
+        //                    }
+        //            }
+        //        }
+        //    }
+        //}
     }
 }
