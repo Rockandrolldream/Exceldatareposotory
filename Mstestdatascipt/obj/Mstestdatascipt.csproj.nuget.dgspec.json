@@ -54,11 +54,19 @@
             },
             "Newtonsoft.Json": {
               "target": "Package",
-              "version": "[9.0.1, )"
+              "version": "[13.0.1, )"
             },
             "PdfSharp": {
               "target": "Package",
               "version": "[1.50.5147, )"
+            },
+            "RestSharp": {
+              "target": "Package",
+              "version": "[108.0.1, )"
+            },
+            "RestSharp.Serializers.NewtonsoftJson": {
+              "target": "Package",
+              "version": "[108.0.1, )"
             }
           },
           "imports": [
