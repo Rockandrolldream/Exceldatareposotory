@@ -20,7 +20,9 @@ namespace Exceldatascript
     public class ExcelDataScriptExecute
     {
         List<String> exceldata = new List<String>();
-        public List<String> GetDataTableFromExcel(int coloumnumber)
+        List<String> notdownloaded = new List<String>();
+        Dictionary<string, string> goingwell = new Dictionary<string, string>();
+        public async Task <Dictionary<string, string>> GetDataTableFromExcel(int coloumnumber)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             byte[] bin = File.ReadAllBytes("C:\\Users\\KOM\\Desktop\\Exceldatascriptopgave\\GRI_2017_2020.xlsx");
@@ -38,31 +40,21 @@ namespace Exceldatascript
                     }
                 }      
             }
-            return exceldata;
+            Console.WriteLine("You are done");
+            return goingwell;
         }
 
-        public async void Validatedata( string outputexcel)
+        public void Validatedata(string outputexcel)
         {
-            switch (outputexcel)
+            if (outputexcel.Contains("http"))
             {
-                case null:
-                  //  Console.WriteLine("string may not be null");
-                    break;
-                case "":
-                 //   Console.WriteLine("string is empthy");
-                    break;
-                default: 
-
-                    if (outputexcel.Contains("http"))
-                    {
-                        var sw = new Stopwatch();
-                        sw.Start();
-                        Task delay = Task.Delay(30000);
-                        SendRequestvalidate(outputexcel);
-                        await delay;
-                    }
-                    break;
+                SendRequestvalidate(outputexcel);
             }
+            else
+            {
+                LookIntoAnotherFile();
+            }
+            
         }
 
         public async Task SendRequestvalidate(string outputexcel)
@@ -70,13 +62,49 @@ namespace Exceldatascript
                 var url = outputexcel;
                 RestClient client = new RestClient(url);
                 var request = new RestRequest(url, Method.Get);
+                request.Timeout = 2000;
                 RestResponse response = await client.ExecuteAsync(request);
                 var Output = response.StatusCode.ToString();
-                Console.WriteLine(Output);
+            Console.WriteLine(Output + "  "  + outputexcel);
             if (Output == "OK")
             {
-                exceldata.Add(outputexcel);
+                goingwell.Add(outputexcel, Output);
             }
+            else
+            {  
+              notdownloaded.Add(outputexcel);
+            }
+        }
+
+        public async Task LookIntoAnotherFile()
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            byte[] bin = File.ReadAllBytes("C:\\Users\\KOM\\Desktop\\Exceldatascriptopgave\\GRI_2017_2020.xlsx");
+
+            using (MemoryStream stream = new MemoryStream(bin))
+            {
+                using (ExcelPackage excelPackage = new ExcelPackage(stream))
+                {
+                    foreach (ExcelWorksheet worksheet in excelPackage.Workbook.Worksheets)
+                    {
+                        for (int i = 2; i <= worksheet.Dimension.End.Row; i++)
+                        {
+                            var outputexcel3 = worksheet.Cells[i, 39].Value.ToString();
+                            if (outputexcel3.Contains("http"))
+                            {
+                                SendRequestvalidate(outputexcel3);
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+
+        public List<String> Displaylist()
+        {
+            Console.WriteLine("This is a list where there has been issusse with downloading");
+            return notdownloaded;
         }
     }
 }

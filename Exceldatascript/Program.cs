@@ -9,6 +9,8 @@ namespace Exceldatascript
             string path = "C:/Users/KOM/Desktop/Exceldatascriptopgave/GRI_2017_2020.xlsx";
             ExcelDataScriptExecute exceldatascriptexecute = new ExcelDataScriptExecute();
             exceldatascriptexecute.GetDataTableFromExcel(38);
+            // not succeds downloaded 
+           // exceldatascriptexecute.Displaylist();
 
         }
     }

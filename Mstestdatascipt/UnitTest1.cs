@@ -14,11 +14,12 @@ namespace Mstestdatascipt
         [TestMethod]
         public void TestLenghtOfPdfDokuments()
         {
-            ExcelDataScriptExecute excelDataScriptExecute = new ExcelDataScriptExecute(); 
+            ExcelDataScriptExecute excelDataScriptExecute = new ExcelDataScriptExecute();  
+            Dictionary<string, string> dic = new Dictionary<string, string>();
 
             var listoutput = excelDataScriptExecute.GetDataTableFromExcel(38);
 
-            Assert.AreEqual(listoutput.Count, 46);
+            Assert.AreEqual(listoutput.Count, 3698);
         }
     }
 }
