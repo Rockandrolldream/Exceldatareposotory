@@ -4,13 +4,12 @@ namespace Exceldatascript
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static async void Main(string[] args)
         {
             string path = "C:/Users/KOM/Desktop/Exceldatascriptopgave/GRI_2017_2020.xlsx";
             ExcelDataScriptExecute exceldatascriptexecute = new ExcelDataScriptExecute();
-            exceldatascriptexecute.GetDataTableFromExcel(38);
-            // not succeds downloaded 
-           // exceldatascriptexecute.Displaylist();
+            var result = exceldatascriptexecute.GetDataTableFromExcel(38);
+            exceldatascriptexecute.LookIntoAnotherFile(result);
 
         }
     }
