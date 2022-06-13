@@ -81,20 +81,19 @@ namespace Exceldatascript
         {
             foreach (var item in downloadinput)
             {
-                for (int i = 0; i < downloadinput.Count; i++)
-                {
                     if (item.Isdownloaded == true)
                     {
                         var url = item.Pdf_URL;
                         RestClient client = new RestClient(url);
                         var request = new RestRequest(url, Method.Get);
                         request.Timeout = 2000;
-                        var response = client.DownloadData(new RestRequest(request.ToString()));
-                        Console.WriteLine(response);
-                        await File.WriteAllBytesAsync("C://Downloadedpdfs", response);
+                        var response = client.DownloadDataAsync(request);
+                        Console.WriteLine(response.Result);
+                    if (response != null)
+                    {
+                        File.WriteAllBytesAsync(@"C:\Downloadedpdfs\", response.Result);
                     }
-                }
-               
+                    }             
             }
         }
 

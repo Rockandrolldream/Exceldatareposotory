@@ -14,23 +14,23 @@ namespace Exceldatascript
             //var listforMetadata2006_2016 = exceldatascriptexecute.Metadata2006_2016();
             //foreach (var item in listforMetadata2006_2016)
             //{
-            //    Console.WriteLine(item.Pdf_URL  +  "  "   + item.Isdownloaded);
-            //}  
+            //    Console.WriteLine(item.Pdf_URL + "  " + item.Isdownloaded);
+            //}
 
 
             // opgave 2 
 
-      
+
             var listresults = exceldatascriptexecute.GetDataTableFromExcel(38);
 
-            //foreach (var item in listresults)
-            //{
-            //    Console.WriteLine(item.BRnum + " " + item.Pdf_URL);
-            //}  
+            foreach (var item in listresults)
+            {
+                Console.WriteLine(item.BRnum + " " + item.Pdf_URL);
+            }
 
-           //  exceldatascriptexecute.LookIntoAnotherColoumn(listresults);
+            //  exceldatascriptexecute.LookIntoAnotherColoumn(listresults);
 
-            exceldatascriptexecute.Helperdownlaod(listresults);
+            //   exceldatascriptexecute.Helperdownlaod(listresults);
 
 
         }
