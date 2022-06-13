@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 using RestSharp;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Collections.Concurrent;
 
 namespace Exceldatascript
 {
@@ -22,8 +23,11 @@ namespace Exceldatascript
         List<String> exceldata = new List<String>();
         List<int> notdownloaded = new List<int>();
         Dictionary<string, string> goingwell = new Dictionary<string, string>();
-        public List<int> GetDataTableFromExcel(int coloumnumber)
+        List<ExcelObject> PDFdownloadMetadata2006_2016 = new List<ExcelObject>();
+        ConcurrentBag<ExcelObject> PDFdownloadGRI_2017_2020 = new ConcurrentBag<ExcelObject>();
+        public ConcurrentBag<ExcelObject> GetDataTableFromExcel(int coloumnumber)
         {
+            Console.WriteLine("Begin to read PDF links");
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             byte[] bin = File.ReadAllBytes("C:\\Users\\KOM\\Desktop\\Exceldatascriptopgave\\GRI_2017_2020.xlsx");
 
@@ -34,47 +38,69 @@ namespace Exceldatascript
                     {  
                         for (int i = 2; i <= worksheet.Dimension.End.Row; i++)
                         {
-                                var outputexcel = worksheet.Cells[i, coloumnumber].Value.ToString();
-                            Validatedata(outputexcel , i);
+                            var outputexcel = worksheet.Cells[i, coloumnumber].Value.ToString(); 
+                            var Brnum = worksheet.Cells[i, 1].Value.ToString();
+                            Validatedata(outputexcel , i, Brnum);
                         }
                     }
                 }      
             }
             Console.WriteLine("You are done");
-            return notdownloaded;
+            return PDFdownloadGRI_2017_2020;
         }
 
-        public void Validatedata(string outputexcel ,int row)
+        public  async void Validatedata(string outputexcel ,int row, string Brnum)
         {
-            if (outputexcel.Contains("http") && outputexcel.Contains("pdf"))
+            if (outputexcel.Contains("http") && outputexcel.Contains("pdf") && outputexcel.Any(char.IsWhiteSpace) == false)
             {
-                SendRequestvalidate(outputexcel, row);
+              await SendRequestvalidate(outputexcel, row, Brnum);
             }
             
         }
 
-        public async Task SendRequestvalidate(string outputexcel, int row)
+        public async Task SendRequestvalidate(string outputexcel, int row, string Brnum)
         {
-                var url = outputexcel;
+            var url = outputexcel;
                 RestClient client = new RestClient(url);
                 var request = new RestRequest(url, Method.Get);
-                request.Timeout = 5000;
+                request.Timeout = 2000;
                 RestResponse response = await client.ExecuteAsync(request);
                 var Output = response.StatusCode.ToString();
-            Console.WriteLine(Output + "  "  + outputexcel);
+          //  Console.WriteLine(Output + "  "  + outputexcel);
             if (Output == "OK")
             {
-                goingwell.Add(outputexcel, Output);
+                PDFdownloadGRI_2017_2020.Add(new ExcelObject(outputexcel, true, row, Brnum));
             }
             else
-            {  
-              notdownloaded.Add(row);
+            {
+                PDFdownloadGRI_2017_2020.Add(new ExcelObject(outputexcel, false, row, Brnum));
             }
         }
 
-        public void LookIntoAnotherFile(List<int> notgoingwell)
+        public async Task Downloadfiles(ConcurrentBag<ExcelObject> downloadinput)
         {
-           ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            foreach (var item in downloadinput)
+            {
+                for (int i = 0; i < downloadinput.Count; i++)
+                {
+                    if (item.Isdownloaded == true)
+                    {
+                        var url = item.Pdf_URL;
+                        RestClient client = new RestClient(url);
+                        var request = new RestRequest(url, Method.Get);
+                        request.Timeout = 2000;
+                        var response = client.DownloadData(new RestRequest(request.ToString()));
+                        Console.WriteLine(response);
+                        await File.WriteAllBytesAsync("C://Downloadedpdfs", response);
+                    }
+                }
+               
+            }
+        }
+
+        public ConcurrentBag<ExcelObject> LookIntoAnotherColoumn(ConcurrentBag<ExcelObject> exceldata)
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             byte[] bin = File.ReadAllBytes("C:\\Users\\KOM\\Desktop\\Exceldatascriptopgave\\GRI_2017_2020.xlsx");
 
             using (MemoryStream stream = new MemoryStream(bin))
@@ -83,25 +109,55 @@ namespace Exceldatascript
                 {
                     foreach (ExcelWorksheet worksheet in excelPackage.Workbook.Worksheets)
                     {
-                        foreach (var item in notgoingwell)
+                        foreach (var item in exceldata)
                         {
-                            var outputexcel3 = worksheet.Cells[item, 39].Value.ToString();
-                            if (outputexcel3.Contains("http"))
+                            if (item.Isdownloaded == false)
                             {
-                                SendRequestvalidate(outputexcel3, item);
+                                var outputsecoundcoloumn = worksheet.Cells[item.Rownumber, 39].Value.ToString();
+
+                                Validatedata(outputsecoundcoloumn, item.Rownumber, item.BRnum);
                             }
+                            
                         }
 
                     }
                 }
             }
-
+            return PDFdownloadGRI_2017_2020;
         }
 
-        public List<int> Displaylist()
+        public List<ExcelObject> Metadata2006_2016()
         {
-            Console.WriteLine("This is a list where there has been issusse with downloading");
-            return notdownloaded;
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            string path = "C:/Users/KOM/Desktop/Exceldatascriptopgave/Metadata2006_2016.xlsx";
+            FileInfo fileInfo = new FileInfo(path);
+
+            ExcelPackage package = new ExcelPackage(fileInfo);
+            ExcelWorksheet worksheet = package.Workbook.Worksheets.FirstOrDefault();
+            ExcelWorksheet worksheetdownlaoded = package.Workbook.Worksheets.FirstOrDefault();
+
+            for (int i = 2; i <= worksheet.Dimension.End.Row; i++)
+            {
+                string pdflink = worksheet.Cells[i, 34].Value.ToString();
+                string iddownloaded = worksheetdownlaoded.Cells[i, 46]?.Value?.ToString();
+
+                if (iddownloaded == "YES")
+                {
+                    PDFdownloadMetadata2006_2016.Add(new ExcelObject(pdflink, true));
+                } 
+                else
+                {
+                    PDFdownloadMetadata2006_2016.Add(new ExcelObject(pdflink, false));
+                }
+
+            }
+            return PDFdownloadMetadata2006_2016;
         }
+
+        public void Helperdownlaod(ConcurrentBag<ExcelObject> downloadinput)
+        {
+           Downloadfiles(downloadinput);
+        }
+
     }
 }
