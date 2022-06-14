@@ -21,16 +21,16 @@ namespace Exceldatascript
             // opgave 2 
 
 
-            var listresults = exceldatascriptexecute.GetDataTableFromExcel(38);
+            var listresults = exceldatascriptexecute.GetDataFromExcel(38);
 
-            foreach (var item in listresults)
-            {
-                Console.WriteLine(item.BRnum + " " + item.Pdf_URL);
-            }
+            //foreach (var item in listresults)
+            //{
+            //    Console.WriteLine(item.BRnum + " " + item.Pdf_URL);
+            //}
 
-            //  exceldatascriptexecute.LookIntoAnotherColoumn(listresults);
+            //exceldatascriptexecute.LookIntoAnotherColoumn(listresults);
 
-            //   exceldatascriptexecute.Helperdownlaod(listresults);
+            exceldatascriptexecute.Downloadfiles(listresults);
 
 
         }

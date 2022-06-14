@@ -21,5 +21,15 @@ namespace Mstestdatascipt
 
             Assert.IsNotNull(listoutput.Count);
         }
+
+        [TestMethod]
+        public void TestExcelfile()
+        {  
+           ExcelDataScriptExecute excelDataScriptExecute = new ExcelDataScriptExecute();
+
+           var exceloutput = excelDataScriptExecute.GetDataFromExcel(39);
+
+            Assert.IsNotNull(exceloutput.Count);
+        }
     }
 }

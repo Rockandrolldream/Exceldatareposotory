@@ -1,8 +1,4 @@
 C:\Users\KOM\source\repos\Exceldatascript\Exceldatascript\bin\Debug\net6.0\Exceldatascript.exe
-C:\Users\KOM\source\repos\Exceldatascript\Exceldatascript\bin\Debug\net6.0\Exceldatascript.deps.json
-C:\Users\KOM\source\repos\Exceldatascript\Exceldatascript\bin\Debug\net6.0\Exceldatascript.runtimeconfig.json
-C:\Users\KOM\source\repos\Exceldatascript\Exceldatascript\bin\Debug\net6.0\Exceldatascript.dll
-C:\Users\KOM\source\repos\Exceldatascript\Exceldatascript\bin\Debug\net6.0\Exceldatascript.pdb
 C:\Users\KOM\source\repos\Exceldatascript\Exceldatascript\bin\Debug\net6.0\EPPlus.dll
 C:\Users\KOM\source\repos\Exceldatascript\Exceldatascript\bin\Debug\net6.0\EPPlus.Interfaces.dll
 C:\Users\KOM\source\repos\Exceldatascript\Exceldatascript\bin\Debug\net6.0\EPPlus.System.Drawing.dll
@@ -65,5 +61,3 @@ C:\Users\KOM\source\repos\Exceldatascript\Exceldatascript\obj\Debug\net6.0\Excel
 C:\Users\KOM\source\repos\Exceldatascript\Exceldatascript\obj\Debug\net6.0\Exceldatascript.dll
 C:\Users\KOM\source\repos\Exceldatascript\Exceldatascript\obj\Debug\net6.0\refint\Exceldatascript.dll
 C:\Users\KOM\source\repos\Exceldatascript\Exceldatascript\obj\Debug\net6.0\Exceldatascript.pdb
-C:\Users\KOM\source\repos\Exceldatascript\Exceldatascript\obj\Debug\net6.0\Exceldatascript.genruntimeconfig.cache
-C:\Users\KOM\source\repos\Exceldatascript\Exceldatascript\obj\Debug\net6.0\ref\Exceldatascript.dll
