@@ -63,3 +63,4 @@ C:\Users\KOM\source\repos\Exceldatascript\Exceldatascript\bin\Debug\net6.0\Excel
 C:\Users\KOM\source\repos\Exceldatascript\Exceldatascript\bin\Debug\net6.0\Exceldatascript.pdb
 C:\Users\KOM\source\repos\Exceldatascript\Exceldatascript\obj\Debug\net6.0\Exceldatascript.genruntimeconfig.cache
 C:\Users\KOM\source\repos\Exceldatascript\Exceldatascript\obj\Debug\net6.0\ref\Exceldatascript.dll
+C:\Users\KOM\source\repos\Exceldatascript\Exceldatascript\bin\Debug\net6.0\CsvHelper.dll

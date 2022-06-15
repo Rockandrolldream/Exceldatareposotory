@@ -15,6 +15,8 @@ using RestSharp;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Collections.Concurrent;
+using CsvHelper;
+using System.Globalization;
 
 namespace Exceldatascript
 {
@@ -28,13 +30,13 @@ namespace Exceldatascript
             byte[] bin = File.ReadAllBytes("C:\\Users\\KOM\\Desktop\\Exceldatascriptopgave\\GRI_2017_2020.xlsx");
 
             using (MemoryStream stream = new MemoryStream(bin)) {
-            using (ExcelPackage excelPackage = new ExcelPackage(stream))
+                using (ExcelPackage excelPackage = new ExcelPackage(stream))
                 {
                     foreach (ExcelWorksheet worksheet in excelPackage.Workbook.Worksheets)
-                    {  
+                    {
                         for (int i = 2; i <= worksheet.Dimension.End.Row; i++)
                         {
-                            var pdflinkname = worksheet.Cells[i, 38].Value.ToString(); 
+                            var pdflinkname = worksheet.Cells[i, 38].Value.ToString();
                             var Brnum = worksheet.Cells[i, 1].Value.ToString();
                             Validatedata(pdflinkname, i, Brnum);
                         }
@@ -49,8 +51,9 @@ namespace Exceldatascript
                             }
                         }
                     }
-                }      
+                }
             }
+            Writetocsv(PDFdownloadGRI_2017_2020);
             Console.WriteLine("You are done");
             return PDFdownloadGRI_2017_2020;
         }
@@ -65,19 +68,18 @@ namespace Exceldatascript
             {
                 PDFdownloadGRI_2017_2020.Add(new ExcelObject(pdflinkname, "NotDownloaded", row, Brnum));
             }
-            
         }
 
         public async Task SendRequestvalidatePdflinks(string pdflinkname, int row, string Brnum)
         {
             var url = pdflinkname;
-                RestClient client = new RestClient(url);
-                var request = new RestRequest(url, Method.Get);
-                request.Timeout = 15000;
-                RestResponse response = await client.ExecuteGetAsync(request);
-                var Output = response.StatusCode.ToString();
-              Console.WriteLine(Output + "  "  + pdflinkname);
-            if ( response.ContentType != null && Output == "OK" && response.ContentType.Contains("pdf"))
+            RestClient client = new RestClient(url);
+            var request = new RestRequest(url, Method.Get);
+            request.Timeout = 10000;
+            RestResponse response = await client.ExecuteGetAsync(request);
+            var Output = response.StatusCode.ToString();
+            Console.WriteLine(Output + "  " + pdflinkname);
+            if (response.ContentType != null && Output == "OK" && response.ContentType.Contains("pdf"))
             {
                 PDFdownloadGRI_2017_2020.Add(new ExcelObject(pdflinkname, "IsDownloaded", row, Brnum));
                 Downloadfiles(pdflinkname, row, Brnum);
@@ -90,23 +92,23 @@ namespace Exceldatascript
 
         public async Task Downloadfiles(string pdflinkname, int row, string Brnum)
         {
-                    var url = pdflinkname;
-                    RestClient client = new RestClient(url);
-                    var request = new RestRequest(url, Method.Get);
-                    request.Timeout = 15000;
-                    var response = client.DownloadDataAsync(request);
+            var url = pdflinkname;
+            RestClient client = new RestClient(url);
+            var request = new RestRequest(url, Method.Get);
+            request.Timeout = 15000;
+            var response = client.DownloadDataAsync(request);
             if (response != null)
             {
                 String path = @"C:\Downloadedpdfs\";
                 string combinepath = path + Brnum + ".pdf";
                 Console.WriteLine(combinepath);
                 File.WriteAllBytesAsync(combinepath, response.Result);
-            }     
+            }
         }
 
         public List<ExcelObject> UpdateMetaData()
         {
-            List<ExcelObject> PDFdownloadMetadata2006_2016 = new List<ExcelObject>();
+            List<ExcelObject> UpdateMetaData = new List<ExcelObject>();
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             string path = "C:/Users/KOM/Desktop/Exceldatascriptopgave/Metadata2006_2016.xlsx";
             FileInfo fileInfo = new FileInfo(path);
@@ -121,15 +123,31 @@ namespace Exceldatascript
                 string isdownloaded = worksheetdownlaoded.Cells[i, 46]?.Value?.ToString();
                 if (isdownloaded == "yes")
                 {
-                    PDFdownloadMetadata2006_2016.Add(new ExcelObject(pdflink, "IsDownloaded"));
-                } 
+                    UpdateMetaData.Add(new ExcelObject(pdflink, "IsDownloaded"));
+                }
                 else
                 {
-                    PDFdownloadMetadata2006_2016.Add(new ExcelObject(pdflink, "NotDownloaded"));
+                    UpdateMetaData.Add(new ExcelObject(pdflink, "NotDownloaded"));
                 }
 
             }
-            return PDFdownloadMetadata2006_2016;
+
+            using (var writer = new StreamWriter("C:/CSVfiles/OldData.csv"))
+            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+            {
+                csv.WriteRecords(UpdateMetaData);
+            }
+
+            return UpdateMetaData;
+        }
+
+        public void Writetocsv(ConcurrentBag<ExcelObject> excelObjects)
+        {
+            using (var writer = new StreamWriter("C:/CSVfiles/FileDatatoTheCustomer.csv"))
+            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+            {
+                csv.WriteRecords(excelObjects);
+            }
         }
 
     }

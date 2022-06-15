@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "jNbKjb1OPnGitLqPWJQSKWhuX7I/wlEon4lFN4gtdilskxz696gDJWK6TG2oc3Tkfx7f6080wnhkokQDQfu7NA==",
+  "dgSpecHash": "RoScLKGQDy1dwy0JPvOckgCqokDv7fLzhuVwYQqiWZjod8nd546VYBgf0zy3DMeYmSaSQp3VkPeCTVBsr1tjJw==",
   "success": true,
   "projectFilePath": "C:\\Users\\KOM\\source\\repos\\Exceldatascript\\Exceldatascript\\Exceldatascript.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\KOM\\.nuget\\packages\\csvhelper\\27.2.1\\csvhelper.27.2.1.nupkg.sha512",
     "C:\\Users\\KOM\\.nuget\\packages\\epplus\\6.0.4\\epplus.6.0.4.nupkg.sha512",
     "C:\\Users\\KOM\\.nuget\\packages\\epplus.interfaces\\6.0.0\\epplus.interfaces.6.0.0.nupkg.sha512",
     "C:\\Users\\KOM\\.nuget\\packages\\epplus.system.drawing\\6.0.0\\epplus.system.drawing.6.0.0.nupkg.sha512",

@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "v2ar2i1hzJnOnxLPKWHKrczI5KbMNKfaTGES5dqQ8r9p6E4V55eMwZCDFMpFV03HDGyezGtlUfqTFn0p4747LA==",
+  "dgSpecHash": "vxcAl2iVhgbM1DmVVhWkNtZ8Rl/fi2scR0AQAz30FKYNfUT8pajGxcjnIlYAdpnGMnGEq/5IRpVB2gXH4Pohlg==",
   "success": true,
   "projectFilePath": "C:\\Users\\KOM\\source\\repos\\Exceldatascript\\Mstestdatascipt\\Mstestdatascipt.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\KOM\\.nuget\\packages\\coverlet.collector\\3.1.2\\coverlet.collector.3.1.2.nupkg.sha512",
+    "C:\\Users\\KOM\\.nuget\\packages\\csvhelper\\27.2.1\\csvhelper.27.2.1.nupkg.sha512",
     "C:\\Users\\KOM\\.nuget\\packages\\epplus\\6.0.4\\epplus.6.0.4.nupkg.sha512",
     "C:\\Users\\KOM\\.nuget\\packages\\epplus.interfaces\\6.0.0\\epplus.interfaces.6.0.0.nupkg.sha512",
     "C:\\Users\\KOM\\.nuget\\packages\\epplus.system.drawing\\6.0.0\\epplus.system.drawing.6.0.0.nupkg.sha512",
