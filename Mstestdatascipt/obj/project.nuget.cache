@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "VtQDMa/aVn1mt7jTKAy8f6L8d/z2toaWe2tc0ZfckAty+/fi4iCYYeRg4QOWDJibvzSpTtcTCo+UOpMarLI7NA==",
+  "dgSpecHash": "v2ar2i1hzJnOnxLPKWHKrczI5KbMNKfaTGES5dqQ8r9p6E4V55eMwZCDFMpFV03HDGyezGtlUfqTFn0p4747LA==",
   "success": true,
   "projectFilePath": "C:\\Users\\KOM\\source\\repos\\Exceldatascript\\Mstestdatascipt\\Mstestdatascipt.csproj",
   "expectedPackageFiles": [
@@ -57,7 +57,6 @@
     "C:\\Users\\KOM\\.nuget\\packages\\netstandard.library\\1.6.1\\netstandard.library.1.6.1.nupkg.sha512",
     "C:\\Users\\KOM\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
     "C:\\Users\\KOM\\.nuget\\packages\\nuget.frameworks\\5.11.0\\nuget.frameworks.5.11.0.nupkg.sha512",
-    "C:\\Users\\KOM\\.nuget\\packages\\pdfsharp\\1.50.5147\\pdfsharp.1.50.5147.nupkg.sha512",
     "C:\\Users\\KOM\\.nuget\\packages\\restsharp\\108.0.1\\restsharp.108.0.1.nupkg.sha512",
     "C:\\Users\\KOM\\.nuget\\packages\\restsharp.serializers.newtonsoftjson\\108.0.1\\restsharp.serializers.newtonsoftjson.108.0.1.nupkg.sha512",
     "C:\\Users\\KOM\\.nuget\\packages\\runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
@@ -147,16 +146,6 @@
       "warningLevel": 1,
       "message": "Package 'Microsoft.Office.Interop.Excel 15.0.4795.1000' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework 'net6.0'. This package may not be fully compatible with your project.",
       "libraryId": "Microsoft.Office.Interop.Excel",
-      "targetGraphs": [
-        "net6.0"
-      ]
-    },
-    {
-      "code": "NU1701",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'PDFsharp 1.50.5147' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework 'net6.0'. This package may not be fully compatible with your project.",
-      "libraryId": "PDFsharp",
       "targetGraphs": [
         "net6.0"
       ]

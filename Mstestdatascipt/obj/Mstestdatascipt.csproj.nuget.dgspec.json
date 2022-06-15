@@ -64,10 +64,6 @@
               "target": "Package",
               "version": "[13.0.1, )"
             },
-            "PdfSharp": {
-              "target": "Package",
-              "version": "[1.50.5147, )"
-            },
             "RestSharp": {
               "target": "Package",
               "version": "[108.0.1, )"
