@@ -22,7 +22,8 @@ namespace Exceldatascript
 {
     public class ExcelDataScriptExecute
     {
-        ConcurrentBag<ExcelObject> PDFdownloadGRI_2017_2020 = new ConcurrentBag<ExcelObject>();
+        ConcurrentBag<ExcelObject> PDFLinksForcustomer = new ConcurrentBag<ExcelObject>(); 
+        // GetDataFromExcelsheet
         public ConcurrentBag<ExcelObject> GetDataFromExcel()
         {
             Console.WriteLine("Begin to read PDF links");
@@ -38,27 +39,31 @@ namespace Exceldatascript
                         {
                             var pdflinkname = worksheet.Cells[i, 38].Value.ToString();
                             var Brnum = worksheet.Cells[i, 1].Value.ToString();
-                            Validatedata(pdflinkname, i, Brnum);
+                            ValidateDataAndSendsRequest(pdflinkname, i, Brnum);
                         }
 
-                        foreach (var item in PDFdownloadGRI_2017_2020)
+                        foreach (var item in PDFLinksForcustomer)
                         {
                             if (item.Isdownloaded == "NotDownloaded")
                             {
                                 var Pdflinksecoundcoloumn = worksheet.Cells[item.Rownumber, 39].Value.ToString();
 
-                                Validatedata(Pdflinksecoundcoloumn, item.Rownumber, item.BRnum);
+                                ValidateDataAndSendsRequest(Pdflinksecoundcoloumn, item.Rownumber, item.BRnum);
                             }
                         }
                     }
                 }
             }
-            Writetocsv(PDFdownloadGRI_2017_2020);
+            using (var writer = new StreamWriter("C:/CSVfiles/FileDatatoTheCustomer.csv"))
+            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+            {
+                csv.WriteRecords(PDFLinksForcustomer);
+            }
             Console.WriteLine("You are done");
-            return PDFdownloadGRI_2017_2020;
+            return PDFLinksForcustomer;
         }
-
-        public async void Validatedata(string pdflinkname, int row, string Brnum)
+        // ValidateandSendRequest
+        public async void ValidateDataAndSendsRequest(string pdflinkname, int row, string Brnum)
         {
             if (pdflinkname.Contains("http") && pdflinkname.Any(char.IsWhiteSpace) == false && pdflinkname.Length > 15)
             {
@@ -66,10 +71,10 @@ namespace Exceldatascript
             }
             else
             {
-                PDFdownloadGRI_2017_2020.Add(new ExcelObject(pdflinkname, "NotDownloaded", row, Brnum));
+                PDFLinksForcustomer.Add(new ExcelObject(pdflinkname, "NotDownloaded", row, Brnum));
             }
         }
-
+        // SendsRequest and validates errors
         public async Task SendRequestvalidatePdflinks(string pdflinkname, int row, string Brnum)
         {
             var url = pdflinkname;
@@ -81,15 +86,15 @@ namespace Exceldatascript
             Console.WriteLine(Output + "  " + pdflinkname);
             if (response.ContentType != null && Output == "OK" && response.ContentType.Contains("pdf"))
             {
-                PDFdownloadGRI_2017_2020.Add(new ExcelObject(pdflinkname, "IsDownloaded", row, Brnum));
+                PDFLinksForcustomer.Add(new ExcelObject(pdflinkname, "IsDownloaded", row, Brnum));
                 Downloadfiles(pdflinkname, row, Brnum);
             }
             else
             {
-                PDFdownloadGRI_2017_2020.Add(new ExcelObject(pdflinkname, "NotDownloaded", row, Brnum));
+                PDFLinksForcustomer.Add(new ExcelObject(pdflinkname, "NotDownloaded", row, Brnum));
             }
         }
-
+        // Downloadfiles 
         public async Task Downloadfiles(string pdflinkname, int row, string Brnum)
         {
             var url = pdflinkname;
@@ -105,7 +110,7 @@ namespace Exceldatascript
                 File.WriteAllBytesAsync(combinepath, response.Result);
             }
         }
-
+        // Class update metaDatafile  
         public List<ExcelObject> UpdateMetaData()
         {
             List<ExcelObject> UpdateMetaData = new List<ExcelObject>();
@@ -140,15 +145,5 @@ namespace Exceldatascript
 
             return UpdateMetaData;
         }
-
-        public void Writetocsv(ConcurrentBag<ExcelObject> excelObjects)
-        {
-            using (var writer = new StreamWriter("C:/CSVfiles/FileDatatoTheCustomer.csv"))
-            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
-            {
-                csv.WriteRecords(excelObjects);
-            }
-        }
-
     }
 }

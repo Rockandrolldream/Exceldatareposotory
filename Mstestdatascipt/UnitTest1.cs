@@ -1,4 +1,5 @@
 using Exceldatascript;
+using Moq;
 
 namespace Mstestdatascipt
 {
@@ -12,24 +13,20 @@ namespace Mstestdatascipt
         }
 
         [TestMethod]
-        public void TestMetadata2006_2016()
-        {  
-            
-            ExcelDataScriptExecute excelDataScriptExecute = new ExcelDataScriptExecute();  
-
-            var listoutput = excelDataScriptExecute.Metadata2006_2016();
-
-            Assert.IsNotNull(listoutput.Count);
+        public void ShouldTestPropertyInInterfaces()
+        {
+            Mock<ExcelInterface> excelmock = new Mock<ExcelInterface>();
+            excelmock.SetupProperty(p => p.Pdf_URL, "http://arpeissig.at/wp-content/uploads/2016/02/D7_NHB_ARP_Final_2.pdf"); 
+            var obj = excelmock.Object;
+            Assert.IsNotNull(obj.Pdf_URL);
         }
 
         [TestMethod]
-        public void TestExcelfile()
-        {  
-           ExcelDataScriptExecute excelDataScriptExecute = new ExcelDataScriptExecute();
-
-           var exceloutput = excelDataScriptExecute.GetDataFromExcel(39);
-
-            Assert.IsNotNull(exceloutput.Count);
+        public void ShouldTestExcelObjectConstructorProperty()
+        {
+            var constructorobject = new Mock<ExcelObject>(MockBehavior.Strict, new object[] { "http://arpeissig.at/wp-content/uploads/2016/02/D7_NHB_ARP_Final_2.pdf", "IsDownloaded", 20, "BR50060" });
+            var constructorobjectvalue = constructorobject.Object.Rownumber; 
+            Assert.AreEqual(constructorobjectvalue, 20);
         }
     }
 }

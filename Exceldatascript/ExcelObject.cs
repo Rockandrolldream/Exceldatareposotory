@@ -6,16 +6,8 @@ using System.Threading.Tasks;
 
 namespace Exceldatascript
 {
-    public class ExcelObject
+    public class ExcelObject : ExcelInterface
     {
-        public string? Pdf_URL { get; set; } 
-
-        public string Isdownloaded { get; set; } 
-
-        public int Rownumber { get; set; } 
-
-        public string BRnum { get; set; }
-
         public ExcelObject(string pdf_URL, string isdownloaded)
         {
             Pdf_URL = pdf_URL;
@@ -29,5 +21,10 @@ namespace Exceldatascript
             Pdf_URL = pdf_URL;
             Isdownloaded = isdownloaded;
         }
+
+        public string? Pdf_URL { get; set ; }
+        public string Isdownloaded { get; set; }
+        public int Rownumber { get; set; }
+        public string BRnum { get; set; }
     }
 }
