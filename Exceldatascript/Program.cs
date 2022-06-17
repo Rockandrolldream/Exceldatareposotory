@@ -9,10 +9,10 @@ namespace Exceldatascript
             ExcelDataScriptExecute exceldatascriptexecute = new ExcelDataScriptExecute();
 
             // opgave 1
-          //  exceldatascriptexecute.UpdateMetaData();
+            exceldatascriptexecute.UpdateMetaData();
 
             // opgave 2
-            exceldatascriptexecute.GetDataFromExcel();           
+            //exceldatascriptexecute.GetDataFromExcel();           
         }
     }
 }
